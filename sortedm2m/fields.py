@@ -324,6 +324,14 @@ class SortedManyToManyField(ManyToManyField):
         defaults.update(kwargs)
         return super(SortedManyToManyField, self).formfield(**defaults)
 
+    def deconstruct(self):
+        name, path, args, kwargs = super(SortedManyToManyField, self).deconstruct()
+        kwargs.update({
+            'sorted': self.sorted,
+            'sort_value_field_name': self.sort_value_field_name,
+        })
+        return self.name, path, args, kwargs
+
 
 # Add introspection rules for South database migrations
 # See http://south.aeracode.org/docs/customfields.html
